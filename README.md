@@ -9,7 +9,7 @@ An interactive deployable web app to analyze disaster messages into categories.
 5. Licensing, Authors, Acknowledgements, etc.
 
 
-#1 
+# 1 
 Welcome! To use this web app, first make sure to clone the repository.
 
 `git clone repository`
@@ -29,11 +29,11 @@ Welcome! To use this web app, first make sure to clone the repository.
 4. Click the `PREVIEW` button to open the homepage
 
 
-#2 Project Motivation
+# 2 Project Motivation
 
 The purpose of this project is to demonstrate a full data science workflow. This project is constructed to showcase the skills of pipeline creation using Python. It covers ETL pipelines, ML pipelines, and more specifically, NLP pipelines. All of the code is automated into one web app using Flask.
 
-#3 File Descriptions
+# 3 File Descriptions
 
 The workspace consists of 3 folders and the README containing the directions above. The `app` folder holds the template sub-folder, which holds all of the html for our web app. This can be customized for a nicer looking web page. Also within `app` is the run.py file, which holds all of the python code for running our app. This file is what should be modified if you want to add or change any of the visualization shown on the home page.
 
@@ -43,10 +43,10 @@ The final folder is named `models` and it holds our ML / NLP pipeline file named
 
 The mini-readme found within the `workspace` folder holds general directions on how to get the project up and running as well.
 
-#4 How to work with the Project
+# 4 How to work with the Project
 
 Follow the directions within the `workspace` folder to complete the subsequent steps.
 
-#5  Licensing, Authors, Acknowledgements, etc.
+# 5  Licensing, Authors, Acknowledgements, etc.
 
 All credit goes to the Udacity staff for providing learning material , resources, and starter code for this project.
