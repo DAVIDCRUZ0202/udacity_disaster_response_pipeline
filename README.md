@@ -9,12 +9,11 @@ An interactive deployable web app to analyze disaster messages into categories.
 5. Licensing, Authors, Acknowledgements, etc.
 
 
-# 1 
+# 1 Installations and Instructions
 Welcome! To use this web app, first make sure to clone the repository.
 
 `git clone repository`
 
-## Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
