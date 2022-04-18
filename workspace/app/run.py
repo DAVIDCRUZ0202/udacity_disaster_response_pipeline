@@ -40,8 +40,18 @@ def index():
     
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
+    genre_counts = df.groupby('genre').count()['message'].sort_values()
+    total = genre_counts.sum()
+    percentages = [i/total for i in genre_counts]
     genre_names = list(genre_counts.index)
+    
+    class_counts = {}
+    
+    for category in df.drop(['id', 'message', 'original', 'genre'], axis=1).columns:
+        class_counts[category] = sum([int(i) for i in df[category]])
+        
+    classnames = list(class_counts.keys())
+    classvals = list(class_counts.values())
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -50,14 +60,14 @@ def index():
             'data': [
                 Bar(
                     x=genre_names,
-                    y=genre_counts
+                    y=percentages
                 )
             ],
 
             'layout': {
                 'title': 'Distribution of Message Genres',
                 'yaxis': {
-                    'title': "Count"
+                    'title': "Percent"
                 },
                 'xaxis': {
                     'title': "Genre"
@@ -67,36 +77,18 @@ def index():
         {
             'data': [
                 Bar(
-                    x=genre_names,
-                    y=genre_counts
+                    x=classnames,
+                    y=classvals
                 )
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Distribution of Message Classes',
                 'yaxis': {
                     'title': "Count"
                 },
                 'xaxis': {
-                    'title': "Genre"
-                }
-            }
-        },
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
-
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
+                    'title': "Class"
                 }
             }
         }
