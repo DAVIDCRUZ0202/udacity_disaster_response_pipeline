@@ -17,6 +17,16 @@ from sklearn.metrics import classification_report
 import joblib
 
 def load_data(database_filepath):
+    """
+    Loads data from a SQL source and converts data into pandas dataframe format.
+    
+    Args:
+    database_filepath: The file path for the raw sql database to access.
+    
+    Returns:
+    a Feature array, Target array, and target labels list from 
+    a database.
+    """
     engine = create_engine('sqlite:///cleandf.db')
     df = pd.read_sql("SELECT * FROM cleandf", engine)
     X = df[['message', 'original', 'genre']]
@@ -25,6 +35,16 @@ def load_data(database_filepath):
     return X, Y, cols
 
 def tokenize(text):
+    """
+    Pre-processing function for text data.
+    
+    Args:
+    text: Takes body of text (string format)
+    
+    Returns:
+    Cleaned text data which has been normalized, tokenized, and lemmatized. Also 
+    stop words are removed.
+    """
     tokens = word_tokenize(text)
     lemma = WordNetLemmatizer()
     clean_toks = []
@@ -32,10 +52,19 @@ def tokenize(text):
         clean_tok = lemma.lemmatize(tok).lower().strip()
         clean_toks.append(clean_tok)
     clean_toks = [word for word in clean_toks if word not in stopwords.words("english")]
-    # could potentially add stemming and lemmatization here
     return clean_toks
 
 def build_model():
+    """
+    Build an NLP ready to be trained on data.
+    
+    Args:
+    None
+    
+    Returns:
+    a pipeline with pre-defined hyperparameters. To save this, assign this function
+    call to an arbitrary variable.
+    """
     pipeline = Pipeline([
     ('vect', CountVectorizer(tokenizer=tokenize)),
     ('tfidf', TfidfTransformer()),
@@ -51,11 +80,37 @@ def build_model():
     return cv
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    Evaluates a model performance against test data.
+    
+    Args:
+    model: The NLP model to be evaluated
+    X_test: Feature array to be passed into our model
+    Y_test: Target array to be evaluated against
+    category_names: Array of target names for clean printing of
+    evaluation metrics
+    
+    Returns:
+    An evaluation of the passed in model utilizing SKLearn's
+    'classification_report' function.
+    """
     preds = model.predict(X_test['message'])
     for i, col in enumerate(category_names):
         print(classification_report(Y_test.iloc[:,i], preds[:,i]))
 
 def save_model(model, model_filepath):
+    """
+    Saves preferred model to local file system. 
+    
+    Uses joblib to compress and store the model at a given location.
+    
+    Args:
+    model: model to save
+    model_filepath: desired file location for where the model will go
+    
+    Returns:
+    Nothing but your model should be found where you sent it !
+    """
     joblib.dump(model, model_filepath)
                                     
 def main():
