@@ -5,12 +5,38 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Reads in raw SQL data and returns a dataframe.
+    
+    Uses pandas to read in data from pre-determined and pre-loaded
+    sources. Then combines this data on key arguments, and returns
+    the merged dataset.
+    
+    Args:
+    messages_filepath: takes the file path for where the raw
+    message logs are located.
+    categories_filepath: takes the file path for where the categorical
+    data can be found.
+    
+    Returns:
+    a merged dataframe of messages with categories.
+    """
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = categories.merge(messages, on='id')
     return df
 
 def clean_data(df):
+    """
+    Returns a cleaned dataframe. Cleans out duplicates,
+    creates binary classes, drops constant classes.
+    
+    Args:
+    df: The dataframe to be cleaned
+    
+    Returns:
+    The same dataframe.
+    """
     categories = df['categories'].str.split(pat=';',expand=True)
     row = categories.iloc[0, :]
     category_colnames = row.apply(lambda x: str(x)[:-2])
@@ -30,8 +56,19 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """
+    Saves cleaned data back to a SQL database.
+    
+    Args:
+    df: the data frame to save
+    database_filename: The filepath to access where the data
+    should be stored.
+    
+    Returns:
+    Nothing but you can pull the cleaned data if you want!
+    """
     engine = create_engine(f"sqlite:///{database_filename}")
-    df.to_sql('cleandf', engine, index=False)
+    df.to_sql('cleandf', engine, if_exists='replace', index=False)
 
 
 def main():
